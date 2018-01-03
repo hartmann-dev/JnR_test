@@ -14,11 +14,15 @@ var MyGameScene = new Phaser.Class({
         this.load.image('plattform2', 'assets/plattform2.png');
         this.load.image('plattform3', 'assets/plattform3.png');
 
+        this.load.image('bg', 'assets/bg.png');
+
 
     },
 
     create: function () {
-        this.fpsText = this.add.text(0, 0, 'FPS: ' + parseInt(game.loop.actualFps));
+        //Hintergrund
+        this.add.image(0,0, 'bg').setScale(0.5).setPosition(400,300)
+        this.fpsText = this.add.text(0, 0, 'FPS: ' + parseInt(game.loop.actualFps)).setColor("0x000000");
         this.playerConf = {
             'runSpeed': 200,
             'jumpSpeed': 160
@@ -43,7 +47,6 @@ var MyGameScene = new Phaser.Class({
             y: gameHeight,
             image: 'plattform3'
         }];
-
 
 
 
@@ -146,7 +149,7 @@ var config = {
             }
         }
     },
-    backgroundColor: '#111',
+    backgroundColor: '#fff',
     scene: [MyGameScene]
 };
 
