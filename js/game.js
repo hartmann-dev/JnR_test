@@ -9,7 +9,7 @@ var MyGameScene = new Phaser.Class({
 
     preload: function () {
         //this.load.image('ground', 'assets/ground.png');
-        this.load.image('player', 'assets/player.png');
+        this.load.image('char', 'assets/char_standing.png');
         this.load.image('plattform1', 'assets/plattform1.png');
         this.load.image('plattform2', 'assets/plattform2.png');
         this.load.image('plattform3', 'assets/plattform3.png');
@@ -78,7 +78,7 @@ var MyGameScene = new Phaser.Class({
 
         });
 
-        this.player = this.physics.add.image(100, 100, 'player');
+        this.player = this.physics.add.image(100, 100, 'char').setScale(0.5).setOrigin(0,0);
         this.physics.add.collider(this.player, images);
 
         this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
