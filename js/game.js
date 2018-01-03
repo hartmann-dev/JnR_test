@@ -10,9 +10,9 @@ var MyGameScene = new Phaser.Class({
     preload: function () {
         //this.load.image('ground', 'assets/ground.png');
         this.load.image('char', 'assets/char_standing.png');
-        this.load.image('plattform1', 'assets/plattform1.png');
-        this.load.image('plattform2', 'assets/plattform2.png');
-        this.load.image('plattform3', 'assets/plattform3.png');
+        this.load.image('plattform_left', 'assets/plattform_left.png');
+        this.load.image('plattform_middle', 'assets/plattform_middle.png');
+        this.load.image('plattform_right', 'assets/plattform_right.png');
 
         this.load.image('bg', 'assets/bg.png');
 
@@ -21,7 +21,7 @@ var MyGameScene = new Phaser.Class({
 
     create: function () {
         //Hintergrund
-        this.add.image(0,0, 'bg').setScale(0.5).setPosition(400,300)
+        this.add.image(0,0, 'bg').setPosition(400,300)
         this.fpsText = this.add.text(0, 0, 'FPS: ' + parseInt(game.loop.actualFps)).setColor("0x000000");
         this.playerConf = {
             'runSpeed': 200,
@@ -35,17 +35,17 @@ var MyGameScene = new Phaser.Class({
         var gameWidth = game.config.width;
 
         var levelMap =[{
-            x: -50,
+            x: 0,
             y: gameHeight,
-            image: 'plattform1'
+            image: 'plattform_left'
         }, {
-            gapX: 80,
+            gapX: 120,
             y: gameHeight - 80,
-            image: 'plattform2'
+            image: 'plattform_middle'
         }, {
-            gapX: 220,
+            gapX: 180,
             y: gameHeight,
-            image: 'plattform3'
+            image: 'plattform_right'
         }];
 
 
@@ -78,7 +78,7 @@ var MyGameScene = new Phaser.Class({
 
         });
 
-        this.player = this.physics.add.image(100, 100, 'char').setScale(0.5).setOrigin(0,0);
+        this.player = this.physics.add.image(100, 100, 'char').setOrigin(0,0);
         this.physics.add.collider(this.player, images);
 
         this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -97,13 +97,13 @@ var MyGameScene = new Phaser.Class({
         }
         if(this.player.y > game.config.height){
             this.player.destroy();
-            this.add.text(100, 100, 'Verloren!');
+            this.add.text(100, 100, 'Verloren!').setColor("0x000000");;
             return;
         }
 
         if(this.player.x > game.config.width){
             this.player.destroy();
-            this.add.text(100, 100, 'Gewonnen!');
+            this.add.text(100, 100, 'Gewonnen!').setColor("0x000000");;
             return;
         }
 
