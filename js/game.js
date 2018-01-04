@@ -13,6 +13,8 @@ var MyGameScene = new Phaser.Class({
         this.load.image('plattform_left', 'assets/plattform_left.png');
         this.load.image('plattform_middle', 'assets/plattform_middle.png');
         this.load.image('plattform_right', 'assets/plattform_right.png');
+        this.load.image('enemy_1', 'assets/enemy_1.png');
+        this.load.image('enemy_2', 'assets/enemy_2.png');
 
         this.load.image('bg', 'assets/bg.png');
 
@@ -76,11 +78,15 @@ var MyGameScene = new Phaser.Class({
 
 
         });
+        this.lizard = this.physics.add.staticImage(590, 550, 'enemy_1').setOrigin(0.5,0.5).setSize(50,150,false);
+        this.lizard.upOrDown = 'down';
+        //enemies.push(this.physics.add.staticImage(780, 400, 'enemy_2').setOrigin(0.5,0.5));
 
         this.player = this.physics.add.image(100, 100, 'char').setOrigin(0,0);
         this.player.body.setSize(50,120);
 
         this.physics.add.collider(this.player, images);
+        this.physics.add.collider(this.player, this.lizard);
 
         this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -96,7 +102,9 @@ var MyGameScene = new Phaser.Class({
         if(!this.player.active){
             return false;
         }
-        if(this.player.y > game.config.height){
+
+
+        if(this.player.y > game.config.height - this.player.height + 25){
             this.player.destroy();
             this.add.text(100, 100, 'Verloren!').setColor("0x000000");;
             return;
@@ -106,6 +114,24 @@ var MyGameScene = new Phaser.Class({
             this.player.destroy();
             this.add.text(100, 100, 'Gewonnen!').setColor("0x000000");;
             return;
+        }
+
+
+
+        if('down' == this.lizard.upOrDown){
+            if(this.lizard.y < 700){
+                this.lizard.y += 2;
+                this.lizard.body.y += 2;
+            } else {
+                this.lizard.upOrDown = 'up'
+            }
+        } else if('up' == this.lizard.upOrDown){
+            if(this.lizard.y >= 550){
+                this.lizard.y -= 2;
+                this.lizard.body.y -= 2;
+            } else {
+                this.lizard.upOrDown = 'down'
+            }
         }
 
 
