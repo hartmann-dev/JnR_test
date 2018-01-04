@@ -28,8 +28,7 @@ var MyGameScene = new Phaser.Class({
             'jumpSpeed': 160
         }
         this.isJumping = false;
-
-
+        
         var that = this;
         var gameHeight = game.config.height;
         var gameWidth = game.config.width;
@@ -66,7 +65,7 @@ var MyGameScene = new Phaser.Class({
             image.body.x += image.width / 2;
 
             image.y -= image.height / 2;
-            image.body.y -= image.height / 2;
+            image.body.y -= ( image.height / 2 ) - 20 ;
 
             images.push(image);
 
