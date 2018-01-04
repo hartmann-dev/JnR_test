@@ -28,7 +28,7 @@ var MyGameScene = new Phaser.Class({
             'jumpSpeed': 160
         }
         this.isJumping = false;
-        
+
         var that = this;
         var gameHeight = game.config.height;
         var gameWidth = game.config.width;
@@ -78,6 +78,8 @@ var MyGameScene = new Phaser.Class({
         });
 
         this.player = this.physics.add.image(100, 100, 'char').setOrigin(0,0);
+        this.player.body.setSize(50,120);
+
         this.physics.add.collider(this.player, images);
 
         this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
