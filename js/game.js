@@ -9,7 +9,7 @@ var MyGameScene = new Phaser.Class({
 
     preload: function () {
         //this.load.image('ground', 'assets/ground.png');
-        this.load.image('char', 'assets/char_standing.png');
+        //this.load.image('char', 'assets/char_standing.png');
         this.load.image('plattform_left', 'assets/plattform_left.png');
         this.load.image('plattform_middle', 'assets/plattform_middle.png');
         this.load.image('plattform_right', 'assets/plattform_right.png');
@@ -17,6 +17,8 @@ var MyGameScene = new Phaser.Class({
         this.load.image('enemy_2', 'assets/enemy_2.png');
 
         this.load.image('bg', 'assets/bg.png');
+
+        this.load.spritesheet('char', 'assets/char.png', { frameWidth: 89, frameHeight: 129, endFrame: 5});
 
 
     },
@@ -67,7 +69,7 @@ var MyGameScene = new Phaser.Class({
             image.body.x += image.width / 2;
 
             image.y -= image.height / 2;
-            image.body.y -= ( image.height / 2 ) - 20 ;
+            image.body.y -= ( image.height / 2 ) - 15 ;
 
             images.push(image);
 
@@ -82,8 +84,28 @@ var MyGameScene = new Phaser.Class({
         this.lizard.upOrDown = 'down';
         //enemies.push(this.physics.add.staticImage(780, 400, 'enemy_2').setOrigin(0.5,0.5));
 
-        this.player = this.physics.add.image(100, 100, 'char').setOrigin(0,0);
-        this.player.body.setSize(50,120);
+        //this.player = this.physics.add.image(100, 100, 'char').setOrigin(0,0);
+        //this.player.body.setSize(50,120);
+
+
+
+        var playerAnimation = this.anims.create({
+            key: 'char',
+            frames: this.anims.generateFrameNumbers('char', {
+                start: 0,
+                end: 4
+            }),
+            repeat: -1,
+            frameRate: 8
+        });
+
+
+        this.player = this.physics.add.sprite(100, 100, 'char').play('char');
+        this.player.setOrigin(0.5, 0.5).body.setSize(50,120);
+        //this.player.anims.play('char');
+        this.player.myAnimations = {};
+        this.player.myAnimations.walk = playerAnimation;
+
 
         this.physics.add.collider(this.player, images);
         this.physics.add.collider(this.player, this.lizard);
@@ -104,7 +126,7 @@ var MyGameScene = new Phaser.Class({
         }
 
 
-        if(this.player.y > game.config.height - this.player.height + 25){
+        if(this.player.y > game.config.height - this.player.height + 100){
             this.player.destroy();
             this.add.text(100, 100, 'Verloren!').setColor("0x000000");;
             return;
@@ -134,26 +156,46 @@ var MyGameScene = new Phaser.Class({
             }
         }
 
-
         if (this.player.body.touching.down  && this.keyUp.isDown)
         {
             this.player.body.velocity.y = -this.playerConf.jumpSpeed;
         }
         else if (this.keyDown.isDown)
         {
-            //this.player.y += 5;
+           //
         }
         else if (this.keyLeftt.isDown)
         {
+
+            if(this.player.myAnimations.walk.paused){
+                this.player.myAnimations.walk.resume(this.player.myAnimations.walk.getFrameAt(0));
+            }
             this.player.body.velocity.x = -this.playerConf.runSpeed;
+            if(this.player.scaleX > 0){
+                this.player.scaleX  = -1;
+                this.player.body.setOffset(-23,0)
+            }
         }
         else if (this.keyRight.isDown)
         {
+
+            if(this.player.myAnimations.walk.paused){
+                this.player.myAnimations.walk.resume(this.player.myAnimations.walk.getFrameAt(0));
+            }
             this.player.body.velocity.x = this.playerConf.runSpeed;
+            if(this.player.scaleX < 0){
+                this.player.scaleX  = 1;
+                this.player.body.setOffset(15, 0)
+            }
         }
         else
         {
+
+            if(!this.player.myAnimations.walk.paused){
+                this.player.myAnimations.walk.pause(this.player.myAnimations.walk.getFrameAt(0));
+            }
             this.player.body.velocity.x = 0;
+
         }
 
 
