@@ -26,8 +26,8 @@ var MyGameScene = new Phaser.Class({
         this.add.image(0,0, 'bg').setPosition(400,300)
         this.fpsText = this.add.text(0, 0, 'FPS: ' + parseInt(game.loop.actualFps)).setColor("0x000000");
         this.playerConf = {
-            'runSpeed': 200,
-            'jumpSpeed': 160
+            'runSpeed': 300,
+            'jumpSpeed': 400
         }
         this.isJumping = false;
 
@@ -172,7 +172,7 @@ var config = {
         arcade: {
             debug: true,
             gravity: {
-                y: 200
+                y: 800
             }
         }
     },
